@@ -14,11 +14,13 @@
 
 
 .press-left {
+  width: $sidebarWidth !important;
   margin-right: auto;
   left: 0;
 }
 
 .press-right {
+  width: $sidebarWidth !important;
   margin-left: auto;
   right: 0;
 }

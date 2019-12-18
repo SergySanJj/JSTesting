@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit, TemplateRef} from '@angular/core';
 
 @Component({
   selector: 'app-gui-column',
@@ -6,6 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./gui-column.component.scss']
 })
 export class GuiColumnComponent implements OnInit {
+
+  @Input()
+  innerContentTemplate: TemplateRef<any>;
 
   constructor() { }
 

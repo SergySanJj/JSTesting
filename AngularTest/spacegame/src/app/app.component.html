@@ -1,5 +1,22 @@
+<ng-template #leftTemplate>
+  <app-info-block></app-info-block>
+  <app-info-block></app-info-block>
+  <app-info-block></app-info-block>
+</ng-template>
+
+<ng-template #centralTemplate>
+  <app-info-block></app-info-block>
+</ng-template>
+
+<ng-template #rightTemplate>
+  <app-info-block></app-info-block>
+  <app-info-block></app-info-block>
+
+</ng-template>
+
 <div class="gui-container">
-  <app-gui-column [ngClass]="'press-left'" id="left-col"></app-gui-column>
-  <app-gui-column [ngClass]="'central'"></app-gui-column>
-  <app-gui-column [ngClass]="'press-right'" id="right-col"></app-gui-column>
+  <app-gui-column [ngClass]="'press-left'" id="left-col" [innerContentTemplate]="leftTemplate">
+  </app-gui-column>
+  <app-gui-column [ngClass]="'central'" id="center-col" [innerContentTemplate]="centralTemplate"></app-gui-column>
+  <app-gui-column [ngClass]="'press-right'" id="right-col" [innerContentTemplate]="rightTemplate"></app-gui-column>
 </div>
