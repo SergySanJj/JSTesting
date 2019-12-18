@@ -1,8 +1,19 @@
+@import "../../variables.scss";
+
 .column {
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+
+  margin: auto;
+
   height: 100vh;
-  width: 20vw;
-  background: aqua;
+  width: $sidebarWidth;
+  min-width: 100px;
+  background: rgb(60,60,60);
 }
+
+
+

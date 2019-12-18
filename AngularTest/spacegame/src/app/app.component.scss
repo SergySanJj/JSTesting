@@ -1,7 +1,28 @@
+@import "../variables";
+
+
 .gui-container {
+  width: 100vw;
   position: absolute;
   display: flex;
   flex-direction: row;
   flex-flow: nowrap;
+  //justify-content: space-between;
+
+  z-index: 10;
 }
 
+
+.press-left {
+  margin-right: auto;
+  left: 0;
+}
+
+.press-right {
+  margin-left: auto;
+  right: 0;
+}
+
+.central {
+  width: $centerWidth !important;
+}
