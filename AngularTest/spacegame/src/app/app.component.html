@@ -4,8 +4,12 @@
   <app-info-block></app-info-block>
 </ng-template>
 
+<ng-template #chat>
+  <app-chat [messages]="messages"></app-chat>
+</ng-template>
+
 <ng-template #centralTemplate>
-  <app-info-block [infoBlockName]="'Chat'"></app-info-block>
+  <app-info-block [infoBlockName]="'Chat'" [infoTemplate]="chat"></app-info-block>
   <app-info-block [infoBlockName]="'Unit control'"></app-info-block>
 </ng-template>
 

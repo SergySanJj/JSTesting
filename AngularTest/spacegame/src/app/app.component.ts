@@ -8,6 +8,8 @@ import {Component, OnInit} from '@angular/core';
 export class AppComponent implements OnInit {
   private leftCol;
   private rightCol;
+  messages: Array<string> = ['fdsf', 'ffff', 'fdsfsdfdsfds', 'fdsfdsfsdfds', 'fdsfdsfdsfds', 'fdfdsfdsfds'];
+
   ngOnInit(): void {
     this.leftCol = document.getElementById('left-col');
     this.rightCol = document.getElementById('right-col');

@@ -1,0 +1,27 @@
+@import "../../variables";
+
+
+.chat-container {
+  display: flex;
+  background: $lightBackground;
+  flex-direction: column;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.chat-container input {
+  display: block;
+  width: 90%;
+  border: none;
+  border-top: $borderStyle;
+  border-radius: 1px;
+  background: $lightBackground;
+  color: $lightTextColor;
+
+  font-size: 1.2rem;
+}
+
+.chat-messages {
+  overflow: scroll;
+  max-height: 50vh;
+}

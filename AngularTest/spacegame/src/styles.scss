@@ -17,6 +17,7 @@ p.header {
   text-align: left;
   font-size: 0.8rem;
   border-bottom: $borderStyle;
+  pointer-events: none;
   //font-weight: bold;
 }
 

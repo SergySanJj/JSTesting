@@ -1,4 +1,4 @@
-<div class="info-block">
+<div class="info-block" [ngClass]="{hidden: display}">
   <p class="header">{{infoBlockName}}</p>
   <ng-template [ngTemplateOutlet]="infoTemplate"></ng-template>
 </div>
