@@ -1,16 +1,27 @@
+@import "../../variables";
+
+:host {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 .info-block {
-  display: inline-block;
-  align-self: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-content: center;
 
-  background: rgba(40,40,40,0.2);
-  border: rgba(200,200,200,0.3) 2px solid;
-  border-radius: 20px;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  background: $lighterBackground;
+  border: $borderStyle;
+  border-radius: 5px;
+  margin: $blockMargin;
 
-  padding: 5px;
+  padding: $blockPadding;
 
   width: 95%;
   min-width: 100px;
   min-height: 100px;
+
+  pointer-events: auto;
 }

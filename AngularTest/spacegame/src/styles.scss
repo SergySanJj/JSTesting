@@ -1,11 +1,26 @@
 /* You can add global styles to this file, and also import other style files */
-@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+@import "variables";
+
 
 html, body {
   margin: 0;
   padding: 0;
-  background: rgb(50,50,50);
-  color: rgb(200,200,200);
+  background: $darkBackground;
+  color: $lightTextColor;
 
-  font-family: "Roboto", serif;
+  font-family: $roboto;
+}
+
+p.header {
+  width: 100%;
+  margin: 0 0;
+  text-align: left;
+  font-size: 0.8rem;
+  border-bottom: $borderStyle;
+  //font-weight: bold;
+}
+
+
+.hidden {
+  display: none;
 }

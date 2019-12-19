@@ -5,7 +5,8 @@
 </ng-template>
 
 <ng-template #centralTemplate>
-  <app-info-block></app-info-block>
+  <app-info-block [infoBlockName]="'Chat'"></app-info-block>
+  <app-info-block [infoBlockName]="'Unit control'"></app-info-block>
 </ng-template>
 
 <ng-template #rightTemplate>
@@ -15,8 +16,7 @@
 </ng-template>
 
 <div class="gui-container">
-  <app-gui-column [ngClass]="'press-left'" id="left-col" [innerContentTemplate]="leftTemplate">
-  </app-gui-column>
-  <app-gui-column [ngClass]="'central'" id="center-col" [innerContentTemplate]="centralTemplate"></app-gui-column>
+  <app-gui-column [ngClass]="'press-left'" id="left-col" [innerContentTemplate]="leftTemplate"> </app-gui-column>
+  <app-gui-column [ngClass]="'central'" id="center-col" [innerContentTemplate]="centralTemplate" [isBottomed]="true"></app-gui-column>
   <app-gui-column [ngClass]="'press-right'" id="right-col" [innerContentTemplate]="rightTemplate"></app-gui-column>
 </div>

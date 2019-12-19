@@ -1,11 +1,12 @@
 @import "../../variables.scss";
 
+
 .column {
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
 
   margin: auto;
 
@@ -15,5 +16,9 @@
   background: rgb(60,60,60);
 }
 
+
+.bottomed{
+  justify-content: flex-end;
+}
 
 

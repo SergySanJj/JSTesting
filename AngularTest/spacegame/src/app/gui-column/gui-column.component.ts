@@ -6,11 +6,14 @@ import {Component, Input, OnInit, TemplateRef} from '@angular/core';
   styleUrls: ['./gui-column.component.scss']
 })
 export class GuiColumnComponent implements OnInit {
-
   @Input()
   innerContentTemplate: TemplateRef<any>;
 
-  constructor() { }
+  @Input()
+  isBottomed = false;
+
+  constructor() {
+  }
 
   ngOnInit() {
   }

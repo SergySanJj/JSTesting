@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit, TemplateRef} from '@angular/core';
 
 @Component({
   selector: 'app-info-block',
@@ -6,8 +6,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./info-block.component.scss']
 })
 export class InfoBlockComponent implements OnInit {
+  @Input()
+  display = true;
 
-  constructor() { }
+  @Input()
+  infoBlockName: string;
+
+  @Input()
+  infoTemplate: TemplateRef<any>;
+
+
+  constructor() {
+  }
 
   ngOnInit() {
   }
