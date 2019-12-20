@@ -19,25 +19,22 @@ const sockets = []
 io.sockets.on('connection', function (socket) {
   sockets.push(socket)
 
-  socket.emit('messages', { messages: messages });
+  updateAll()
 
   socket.on('message', function (data) {
     console.log('got message', data);
     messages.push(data.message)
+    updateAll()
   });
   socket.on('disconnect', function () {
     console.log('user disconnected');
-    // sockets = sockets.filter(function (value, index, arr) {
-    //   return value !== socket
-    // });
+    updateAll()
   });
 });
 
-const meassageUpdater = interval(1000)
-
-const subscribe = meassageUpdater.subscribe(val => {
+function updateAll(){
   console.log('updating')
   for (let socket of sockets) {
     socket.emit('messages', { messages: messages })
   }
-})
+}
