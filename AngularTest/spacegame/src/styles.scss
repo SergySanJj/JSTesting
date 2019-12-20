@@ -30,8 +30,11 @@ div.header {
 
 
 .hidden {
-  display: none;
+  //display: none;
+  height: 1rem;
+  overflow:hidden;
 }
+
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

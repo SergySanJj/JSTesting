@@ -19,6 +19,10 @@ export class InfoBlockComponent implements OnInit {
   constructor() {
   }
 
+  reverseVisible() {
+    this.display = !this.display;
+  }
+
   ngOnInit() {
   }
 

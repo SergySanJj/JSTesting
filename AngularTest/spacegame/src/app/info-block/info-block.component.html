@@ -1,7 +1,7 @@
-<div class="info-block" [ngClass]="{hidden: display}">
+<div class="info-block" [ngClass]="{hidden: !display}">
   <div class="header">
     <span class="header">{{infoBlockName}}</span>
-    <mat-icon>keyboard_arrow_down</mat-icon>
+    <mat-icon (click)="reverseVisible()">keyboard_arrow_down</mat-icon>
   </div>
 
   <ng-template [ngTemplateOutlet]="infoTemplate"></ng-template>

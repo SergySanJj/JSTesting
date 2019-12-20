@@ -5,11 +5,11 @@
 </ng-template>
 
 <ng-template #chat>
-  <app-chat [messages]="messages"></app-chat>
+  <app-chat [messages]="messages" [messageSendHandler]="sendMessage"></app-chat>
 </ng-template>
 
 <ng-template #centralTemplate>
-  <app-info-block [infoBlockName]="'Chat'" [infoTemplate]="chat"></app-info-block>
+  <app-info-block [infoBlockName]="'Chat'" [infoTemplate]="chat" [display]="true"></app-info-block>
   <app-info-block [infoBlockName]="'Unit control'"></app-info-block>
 </ng-template>
 

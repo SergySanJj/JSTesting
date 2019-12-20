@@ -6,12 +6,13 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  private leftCol;
-  private rightCol;
-  messages: Array<string> = ['fdsf', 'ffff', 'fdsfsdfdsfds', 'fdsfdsfsdfds', 'fdsfdsfdsfds', 'fdfdsfdsfds'];
+  messages: Array<string> = [];
 
   ngOnInit(): void {
-    this.leftCol = document.getElementById('left-col');
-    this.rightCol = document.getElementById('right-col');
+  }
+
+  sendMessage(msg: string) {
+    console.log('message sent to server');
+    this.messages.push(msg);
   }
 }
