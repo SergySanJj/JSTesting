@@ -2,7 +2,8 @@ import * as io from 'socket.io-client';
 import {Observable} from 'rxjs';
 
 export class ChatService {
-  private url = 'http://localhost:3000';
+  // private url = 'http://localhost:3000';
+  private url = window.location.href;
   private socket;
 
   constructor() {

@@ -35,22 +35,21 @@ const sockets = [];
 
 
 io.sockets.on('connection', function (socket) {
+  console.log(`user ${socket.handshake.address} connected`);
   sockets.push(socket);
 
   socket.on('message', function (data) {
-    console.log('got message', data);
-    messages.push(data);
+    messages.push(`${socket.handshake.address}: ${data}`);
     updateAll(data)
   });
   socket.on('disconnect', function () {
-    console.log('user disconnected');
+    console.log(`user ${socket.handshake.address} disconnected`);
   });
 });
 
 function updateAll(newMsg){
-  console.log('updating');
   for (let socket of sockets) {
-    socket.emit('message', newMsg)
+    socket.emit('message', messages[messages.length-1])
   }
 }
 

@@ -1,4 +1,5 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {ChatService} from '../../chat.service';
 
 @Component({
   selector: 'app-chat',
@@ -12,10 +13,11 @@ export class ChatComponent implements OnInit {
   messages: Array<string>;
 
   @Input()
-  messageSendHandler: ChatComponent;
+  messageSendHandler: ChatService;
 
   constructor() {
   }
+
 
   ngOnInit() {
   }
@@ -24,15 +26,17 @@ export class ChatComponent implements OnInit {
   keyPress(e: any) {
     // console.log('keypress', e);
     if (e.key === 'Enter') {
-      this.sendMessage(this.chatInputValue);
-      this.chatInputValue = '';
+      this.sendMessage();
     }
   }
 
-  sendMessage(text: string) {
+
+  sendMessage() {
+    const text = this.chatInputValue;
     if (text !== '') {
       console.log('message', text);
       this.messageSendHandler.sendMessage(text);
     }
+    this.chatInputValue = '';
   }
 }
