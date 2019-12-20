@@ -5,7 +5,7 @@
 </ng-template>
 
 <ng-template #chat>
-  <app-chat [messages]="messages" [messageSendHandler]="sendMessage"></app-chat>
+  <app-chat [messages]="messages" [messageSendHandler]="this.chatService"></app-chat>
 </ng-template>
 
 <ng-template #centralTemplate>

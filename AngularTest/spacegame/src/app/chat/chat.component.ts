@@ -12,7 +12,7 @@ export class ChatComponent implements OnInit {
   messages: Array<string>;
 
   @Input()
-  messageSendHandler: (s: string) => {};
+  messageSendHandler: ChatComponent;
 
   constructor() {
   }
@@ -32,7 +32,7 @@ export class ChatComponent implements OnInit {
   sendMessage(text: string) {
     if (text !== '') {
       console.log('message', text);
-      this.messageSendHandler(text);
+      this.messageSendHandler.sendMessage(text);
     }
   }
 }
