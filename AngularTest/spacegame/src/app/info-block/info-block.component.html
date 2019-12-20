@@ -1,4 +1,8 @@
 <div class="info-block" [ngClass]="{hidden: display}">
-  <p class="header">{{infoBlockName}}</p>
+  <div class="header">
+    <span class="header">{{infoBlockName}}</span>
+    <mat-icon>keyboard_arrow_down</mat-icon>
+  </div>
+
   <ng-template [ngTemplateOutlet]="infoTemplate"></ng-template>
 </div>

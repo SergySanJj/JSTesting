@@ -6,6 +6,8 @@ import { GuiColumnComponent } from './gui-column/gui-column.component';
 import { InfoBlockComponent } from './info-block/info-block.component';
 import { ChatComponent } from './chat/chat.component';
 import { ChatMessageComponent } from './chat/chat-message/chat-message.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatIconModule} from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,9 @@ import { ChatMessageComponent } from './chat/chat-message/chat-message.component
     ChatMessageComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    BrowserAnimationsModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]

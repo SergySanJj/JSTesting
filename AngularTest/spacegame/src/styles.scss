@@ -11,8 +11,8 @@ html, body {
   font-family: $roboto;
 }
 
-p.header {
-  width: 100%;
+p.header, span.header {
+  width: 90%;
   margin: 0 0;
   text-align: left;
   font-size: 0.8rem;
@@ -21,7 +21,17 @@ p.header {
   //font-weight: bold;
 }
 
+div.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+
 
 .hidden {
   display: none;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
