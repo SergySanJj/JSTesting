@@ -42,18 +42,57 @@ io.sockets.on('connection', function (socket) {
   sockets.push(socket);
 
   socket.on('message', function (data) {
-    messages.push(`${socket.handshake.address}: ${data}`);
-    updateAll(data)
+    if (data !== '' && data !== null) {
+      let newMsg = `${socket.handshake.address}: ${data}`;
+      messages.push(newMsg);
+      if (data.charAt(0) === '/') {
+        console.log('Admin command request from ', socket.handshake.address, data);
+        let cmd = data.substring(1, data.length);
+        try {
+          updateSingle(newMsg, socket);
+          let cmdRes = eval(cmd);
+          serverMessage(JSON.stringify(cmdRes), socket);
+        } catch (e) {
+          console.log('Error during admin command execution');
+          serverMessage("Error during command execution", socket);
+        }
+      } else {
+        updateAll(newMsg)
+      }
+    }
   });
   socket.on('disconnect', function () {
     console.log(`user ${socket.handshake.address} disconnected`);
   });
 });
 
-function updateAll(newMsg){
+function updateAll(newMsg) {
   for (let socket of sockets) {
-    socket.emit('message', messages[messages.length-1])
+    socket.emit('message', newMsg)
   }
+}
+
+function updateSingle(newMsg, socket) {
+  socket.emit('message', newMsg)
+}
+
+function updateGroup(newMsg, socketArray) {
+  for (let socket of socketArray) {
+    socket.emit('message', newMsg)
+  }
+}
+
+function serverMessage(newMsg, socket) {
+  socket.emit('serverMessage', newMsg)
+}
+
+// Admin commands
+function getCurrentUsers() {
+  let res = [];
+  for (let s of sockets) {
+    res.push(s.handshake.address);
+  }
+  return res;
 }
 
 

@@ -24,28 +24,32 @@
   border-radius: 10px;
   margin: 3px;
   padding: 4px 8px 4px 10px;
-  max-height: 4rem;
   background: $lightBackground;
   color: $lightTextColor;
 
   font-size: 1.2rem;
-  min-height: 1.5rem;
+  height: 1.5rem;
   word-break: break-word;
   word-wrap: break-word;
   overflow-wrap: break-word;
 }
 
-.chat-container input[type="button"]{
+.chat-container input[type="button"] {
   display: block;
+  align-self: center;
   width: fit-content;
-  background: $darkBackground;
+  background: $lighterBackground;
   color: $lightTextColor;
-
+  border: $borderStyle;
+  border-radius: $borderBigRadius;
+  height: 1.5rem;
 }
 
 .chat-messages {
   overflow-x: hidden;
   overflow-y: scroll;
-  max-height: 50vh;
-  min-height: 50vh;
+  max-height: 30vh;
+  min-height: 30vh;
 }
+
+

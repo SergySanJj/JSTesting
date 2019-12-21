@@ -19,6 +19,10 @@ export class ChatService {
       this.socket.on('message', (message) => {
         observer.next(message);
       });
+      this.socket.on('serverMessage', (message) => {
+        console.log(JSON.parse(message));
+        observer.next('SERVER: ' + JSON.parse(message));
+      });
     });
   }
 }
