@@ -2,8 +2,8 @@
   <div class="chat-messages">
     <app-chat-message *ngFor="let msg of messages" [message]="msg"></app-chat-message>
   </div>
-  <label>
+  <div class="controls-container">
     <input type="text" (keypress)="keyPress($event)" [(ngModel)]="chatInputValue">
-  </label>
-  <input type="button" (click)="sendMessage()" ngModel="'send'">
+    <input type="button" (click)="sendMessage()" ngModel="send">
+  </div>
 </div>

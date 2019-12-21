@@ -12,6 +12,9 @@ const server = http.createServer(app);
 const io = socketIo.listen(server);
 
 
+// const Message = require('./src/networkmodels/message.js');
+
+
 server.listen(port, () => {
   console.log("Server started on", port);
 });
