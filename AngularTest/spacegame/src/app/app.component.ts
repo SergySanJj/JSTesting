@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ChatService} from '../chat.service';
+import {Game} from '../game.service';
 
 @Component({
   selector: 'app-root',
@@ -9,9 +10,11 @@ import {ChatService} from '../chat.service';
 export class AppComponent implements OnInit {
   messages: Array<string> = [];
   public chatService: ChatService;
+  public game: Game;
 
   constructor() {
     this.chatService = new ChatService();
+    this.game = new Game();
   }
 
   ngOnInit(): void {

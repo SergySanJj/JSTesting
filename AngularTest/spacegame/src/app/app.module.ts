@@ -11,6 +11,7 @@ import {MatIconModule} from '@angular/material';
 import {FormsModule} from '@angular/forms';
 
 import { ChatService } from '../chat.service';
+import { CanvasViewComponent } from './canvas-view/canvas-view.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { ChatService } from '../chat.service';
     GuiColumnComponent,
     InfoBlockComponent,
     ChatComponent,
-    ChatMessageComponent
+    ChatMessageComponent,
+    CanvasViewComponent
   ],
   imports: [
     BrowserModule,

@@ -19,8 +19,14 @@
 
 </ng-template>
 
+
+<div class="canvas-container">
+  <app-canvas-view [game]="game"></app-canvas-view>
+</div>
+
 <div class="gui-container">
-  <app-gui-column [ngClass]="'press-left'" id="left-col" [innerContentTemplate]="leftTemplate"> </app-gui-column>
-  <app-gui-column [ngClass]="'central'" id="center-col" [innerContentTemplate]="centralTemplate" [isBottomed]="true"></app-gui-column>
+  <app-gui-column [ngClass]="'press-left'" id="left-col" [innerContentTemplate]="leftTemplate"></app-gui-column>
+  <app-gui-column [ngClass]="'central'" id="center-col" [innerContentTemplate]="centralTemplate"
+                  [isBottomed]="true"></app-gui-column>
   <app-gui-column [ngClass]="'press-right'" id="right-col" [innerContentTemplate]="rightTemplate"></app-gui-column>
 </div>
