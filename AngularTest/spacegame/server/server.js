@@ -11,6 +11,7 @@ const port = process.env.PORT || 3000;
 const server = http.createServer(app);
 const io = socketIo.listen(server);
 
+const distFolder = path.join(__dirname, '..', '/dist/spacegame')
 
 // const Message = require('./src/networkmodels/message.js');
 
@@ -20,16 +21,16 @@ server.listen(port, () => {
 });
 
 app.get('/*.(css|js|ico|html)', (req, res) => {
-  let p = path.join(__dirname, '/dist/spacegame', req.url);
+  let p = path.join(distFolder, req.url);
   if (fs.existsSync(p)) {
     res.sendFile(p);
   } else {
-    res.sendFile(path.join(__dirname, '/dist/spacegame/index.html'));
+    res.sendFile(path.join(distFolder, '/index.html'));
   }
 });
 
 app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, '/dist/spacegame/index.html'));
+  res.sendFile(path.join(distFolder, '/index.html'));
 });
 
 

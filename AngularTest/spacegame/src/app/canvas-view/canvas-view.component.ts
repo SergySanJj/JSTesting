@@ -17,8 +17,7 @@ export class CanvasViewComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    const canvas = document.getElementById('canvas');
-    this.game.setCanvas(canvas);
+    this.game.setCanvas(document.getElementById('webglOutput'));
   }
 
 }
