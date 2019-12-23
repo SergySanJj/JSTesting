@@ -3,6 +3,10 @@ const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
 const fs = require('fs');
+const connect = require('connect');
+const cors = require('cors');
+const fetch = require('node-fetch');
+const relativeURL = require('./urlmod').relativeURL;
 
 const app = express();
 app.use(express.static(path.join(__dirname, '/dist')));
@@ -11,13 +15,17 @@ const port = process.env.PORT || 3000;
 const server = http.createServer(app);
 const io = socketIo.listen(server);
 
-const distFolder = path.join(__dirname, '..', '/dist/spacegame')
-
-// const Message = require('./src/networkmodels/message.js');
+const distFolder = path.join(__dirname, '..', '/dist/spacegame');
 
 
 server.listen(port, () => {
   console.log("Server started on", port);
+});
+
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
 });
 
 app.get('/*.(css|js|ico|html)', (req, res) => {
@@ -27,6 +35,18 @@ app.get('/*.(css|js|ico|html)', (req, res) => {
   } else {
     res.sendFile(path.join(distFolder, '/index.html'));
   }
+});
+
+app.get('/api/*', (req, res) => {
+  console.log('api call');
+  const firebase = 'https://firebasestorage.googleapis.com/';
+  const reqUrl = relativeURL('api/', req.url);
+  console.log('req url', reqUrl);
+  const firebaseFile = firebase + reqUrl;
+  console.log('actual firebase', firebaseFile);
+  fetch(firebaseFile)
+    .then(res => res.buffer())
+    .then(buffer => res.send(buffer));
 });
 
 app.get('/*', (req, res) => {

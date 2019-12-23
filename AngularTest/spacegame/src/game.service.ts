@@ -27,12 +27,16 @@ export class Game {
     this.renderer.setSize(this.getWidth(), this.getHeight());
     this.domContainer.appendChild(this.renderer.domElement);
 
-    const geometry = new THREE.SphereGeometry(1, 10, 10);
-    const material = new THREE.MeshNormalMaterial({});
-    const sphere = new THREE.Mesh(geometry, material);
-    this.scene.add(sphere);
+    // const geometry = new THREE.SphereGeometry(1, 10, 10);
+    // const material = new THREE.MeshNormalMaterial({});
+    // const sphere = new THREE.Mesh(geometry, material);
+    // this.scene.add(sphere);
 
     this.camera.position.z = 5;
+
+    // tslint:disable-next-line:max-line-length
+    const modelUrl = 'modelUrl';
+    this.loadPlanetModel(modelUrl);
 
     this.setupLights();
 
@@ -97,6 +101,25 @@ export class Game {
     this.camera.updateProjectionMatrix();
   }
 
+  loadPlanetModel(modelURL) {
+    const planetElements = [];
+    let root;
+    const gltfLoader = new GLTFLoader();
+    gltfLoader.load(modelURL, (gltf) => {
+      root = gltf.scene;
+      this.scene.add(root);
+
+      root.updateMatrixWorld();
+
+      for (const elem of root.children.slice()) {
+        planetElements.push(elem);
+      }
+
+      // let planet = new Planet(planetElements);
+      // this.animatables.push(planet);
+    });
+  }
+
   private run() {
     let lastTime = Date.now();
     const self = this;
@@ -106,11 +129,6 @@ export class Game {
       time *= 0.001;  // convert to seconds
       const delta = Date.now() - lastTime;
       lastTime = Date.now();
-
-
-      // self.bgMesh.position.copy(self.camera.position);
-      // self.renderer.render(self.bgScene, self.camera);
-
 
       self.renderer.render(self.scene, self.camera);
       requestAnimationFrame(render);
