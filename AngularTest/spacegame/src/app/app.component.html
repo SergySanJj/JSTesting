@@ -1,7 +1,7 @@
 <ng-template #leftTemplate>
-  <app-info-block></app-info-block>
-  <app-info-block></app-info-block>
-  <app-info-block></app-info-block>
+  <app-info-block [infoBlockName]="'System info'"></app-info-block>
+  <app-info-block [infoBlockName]="'Planet info'"></app-info-block>
+  <app-info-block [infoBlockName]="'Space Base info'"></app-info-block>
 </ng-template>
 
 <ng-template #chat>
@@ -14,8 +14,8 @@
 </ng-template>
 
 <ng-template #rightTemplate>
-  <app-info-block></app-info-block>
-  <app-info-block></app-info-block>
+  <app-info-block [infoBlockName]="'Space Base controls'"></app-info-block>
+  <app-info-block [infoBlockName]="'Corporation controls'"></app-info-block>
 
 </ng-template>
 
