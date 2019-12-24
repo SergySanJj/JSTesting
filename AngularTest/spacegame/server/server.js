@@ -1,3 +1,6 @@
+const relativeURL = require('./urlmod').relativeURL;
+const models = require('./models').models;
+
 const path = require("path");
 const express = require('express');
 const http = require('http');
@@ -6,7 +9,28 @@ const fs = require('fs');
 const connect = require('connect');
 const cors = require('cors');
 const fetch = require('node-fetch');
-const relativeURL = require('./urlmod').relativeURL;
+const admin = require('firebase-admin');
+const firebase = require('firebase');
+require('firebase/storage');
+global.XMLHttpRequest = require("xhr2");
+
+const pathToApiKeys = '../keys/real/';
+
+// DATABASE
+let serviceAccount = require(path.join(pathToApiKeys, 'DB_KEYS.json'));
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
+let db = admin.firestore();
+
+// STORAGE
+const firebaseConfig = require(path.join(pathToApiKeys, 'FIRESTORE_KEYS'));
+firebase.initializeApp(firebaseConfig);
+let storage = firebase.storage();
+let storageRef = storage.ref();
+let modelsRef = storageRef.child('models');
+let imagesRef = storageRef.child('images');
+
 
 const app = express();
 app.use(express.static(path.join(__dirname, '/dist')));
@@ -37,16 +61,32 @@ app.get('/*.(css|js|ico|html)', (req, res) => {
   }
 });
 
-app.get('/api/*', (req, res) => {
-  console.log('api call');
-  const firebase = 'https://firebasestorage.googleapis.com/';
-  const reqUrl = relativeURL('api/', req.url);
-  console.log('req url', reqUrl);
-  const firebaseFile = firebase + reqUrl;
-  console.log('actual firebase', firebaseFile);
-  fetch(firebaseFile)
-    .then(res => res.buffer())
-    .then(buffer => res.send(buffer));
+app.get('/api/models/*', (req, res) => {
+  const reqUrl = relativeURL('/api/models/', req.url);
+  const fileName = models[reqUrl];
+  if (!fileName){
+    res.send('Unknown model name')
+  }
+  let fileRef = modelsRef.child(fileName);
+  fileRef.getDownloadURL().then((url) => {
+    fetch(url)
+      .then(res => res.buffer())
+      .then(buffer => res.send(buffer));
+  });
+});
+
+app.get('/api/images/*', (req, res) => {
+  const reqUrl = relativeURL('/api/images/', req.url);
+  let fileRef = imagesRef.child(reqUrl);
+  fileRef.getDownloadURL().then((url) => {
+    fetch(url)
+      .then(res => res.buffer())
+      .then(buffer => res.send(buffer));
+  });
+});
+
+app.get('/api/*/*', (req, res) => {
+  res.send("No such api call");
 });
 
 app.get('/*', (req, res) => {
@@ -71,7 +111,7 @@ io.sockets.on('connection', function (socket) {
         let cmd = data.substring(1, data.length);
         try {
           updateSingle(newMsg, socket);
-          let cmdRes = eval(cmd);
+          let cmdRes = executeCommand(cmd);
           serverMessage(JSON.stringify(cmdRes), socket);
         } catch (e) {
           console.log('Error during admin command execution');
@@ -108,12 +148,24 @@ function serverMessage(newMsg, socket) {
 }
 
 // Admin commands
-function getCurrentUsers() {
-  let res = [];
-  for (let s of sockets) {
-    res.push(s.handshake.address);
+const commands = {
+  "getCurrentUsers": function getCurrentUsers() {
+    let res = [];
+    for (let s of sockets) {
+      res.push(s.handshake.address);
+    }
+    return res;
   }
-  return res;
+};
+
+function executeCommand(commandName) {
+  if (commands.hasOwnProperty(commandName)) {
+    return commands[commandName]();
+  } else {
+    return `No such command ${commandName}`;
+  }
 }
+
+
 
 

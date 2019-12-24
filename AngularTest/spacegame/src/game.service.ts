@@ -1,3 +1,5 @@
+import {models} from './models';
+
 import * as THREE from 'three';
 import three_orbit_controls from 'three-orbit-controls';
 
@@ -34,8 +36,7 @@ export class Game {
 
     this.camera.position.z = 5;
 
-    // tslint:disable-next-line:max-line-length
-    const modelUrl = 'modelUrl';
+    const modelUrl = models.planetGroup;
     this.loadPlanetModel(modelUrl);
 
     this.setupLights();

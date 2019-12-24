@@ -183,3 +183,5 @@ fabric.properties
 
 */.idea/*
 */keys/real/*
+AngularTest/spacegame/keys/real/DB_KEYS.json
+AngularTest/spacegame/keys/real/FIRESTORE_KEYS.json

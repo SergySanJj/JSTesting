@@ -1,6 +1,5 @@
 module.exports.relativeURL = function (rootURL, childURL) {
-  const res = childURL.substr(endOfCommon,childURL.length);
-  return res;
+  return childURL.substr(endOfCommon(rootURL, childURL), childURL.length);
 };
 
 function endOfCommon(rootURL, childURL) {

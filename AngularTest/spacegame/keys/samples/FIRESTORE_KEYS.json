@@ -1,0 +1,10 @@
+{
+  "apiKey": "api",
+  "authDomain": "domain",
+  "databaseURL": "url",
+  "projectId": "project name id",
+  "storageBucket": "address",
+  "messagingSenderId": "num",
+  "appId": "ip",
+  "measurementId": "code"
+}
