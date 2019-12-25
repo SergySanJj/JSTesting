@@ -1,6 +1,7 @@
 import * as io from 'socket.io-client';
 import {Observable} from 'rxjs';
 import {socketsURL} from './addresses/constants';
+import {AuthService} from './app/auth.service';
 
 export class ChatService {
   private url = socketsURL;
@@ -11,7 +12,7 @@ export class ChatService {
   }
 
   public sendMessage(msg: string) {
-    this.socket.emit('message', msg);
+    this.socket.emit('message', {message: msg, token: AuthService.token});
   }
 
   public getMessages = () => {
