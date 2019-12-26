@@ -1,5 +1,8 @@
 const relativeURL = require('./urlmod').relativeURL;
 const models = require('./models').models;
+const Logger = require('./logger').Logger;
+
+const User = require('./user').User;
 
 const path = require("path");
 const express = require('express');
@@ -7,8 +10,6 @@ const http = require('http');
 const sha256 = require('sha256');
 const socketIo = require('socket.io');
 const fs = require('fs');
-const connect = require('connect');
-const cors = require('cors');
 const bodyParser = require('body-parser');
 const fetch = require('node-fetch');
 const admin = require('firebase-admin');
@@ -16,37 +17,51 @@ const firebase = require('firebase');
 require('firebase/storage');
 global.XMLHttpRequest = require("xhr2");
 
+const logsPath = path.join(__dirname, '/logs');
+const chatLogs = new Logger(logsPath, 'chat');
+const authLogs = new Logger(logsPath, 'authentication');
+const pipelineLogs = new Logger(logsPath, 'pipeline');
+const adminLogs = new Logger(logsPath, 'admin');
+
 const pathToApiKeys = '../keys/real/';
 
 // DATABASE
+pipelineLogs.log("Initializing database connection");
 let serviceAccount = require(path.join(pathToApiKeys, 'DB_KEYS.json'));
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 });
 let db = admin.firestore();
+pipelineLogs.log("Database connected");
 
 // STORAGE
+pipelineLogs.log("Initializing file storage connection");
 const firebaseConfig = require(path.join(pathToApiKeys, 'FIRESTORE_KEYS'));
 firebase.initializeApp(firebaseConfig);
 let storage = firebase.storage();
 let storageRef = storage.ref();
 let modelsRef = storageRef.child('models');
 let imagesRef = storageRef.child('images');
+pipelineLogs.log("File storage connected");
 
 
+pipelineLogs.log("Initializing express app");
 const app = express();
 app.use(express.static(path.join(__dirname, '/dist')));
 app.use(bodyParser.json());
+pipelineLogs.log("Express app created");
 
+pipelineLogs.log("Initializing http server");
 const port = process.env.PORT || 3000;
 const server = http.createServer(app);
 const io = socketIo.listen(server);
+pipelineLogs.log("Express app connected to http server");
 
 const distFolder = path.join(__dirname, '..', '/dist/spacegame');
 
 
 server.listen(port, () => {
-  console.log("Server started on", port);
+  pipelineLogs.logp(`Server started on ${port}`);
 });
 
 app.use(function (req, res, next) {
@@ -67,31 +82,40 @@ app.get('/*.(css|js|ico|html)', (req, res) => {
 
 const registeredUsers = [];
 
-function getName(token) {
+function findUserByUsername(username) {
   for (let user of registeredUsers) {
-    if (user.token === token) {
-      return user.username;
+    if (user.username === username) {
+      return user;
     }
   }
+  return null;
 }
 
-app.post('/api/auth/', (req, res) => {
-  console.log('Auth post request');
-  console.log('body', req.body);
+function findUserByToken(token) {
   for (let user of registeredUsers) {
-    if (user.username === req.body.username) {
-      if (user.password === req.body.password) {
-        res.send({success: true, token: user.token});
-        return;
-      } else {
-        res.send({success: false, message: "Incorrect password"});
-        return;
-      }
+    if (user.token === token) {
+      return user;
     }
   }
-  let token = sha256(req.body.username + req.body.password);
-  registeredUsers.push({username: req.body.username, password: req.body.password, token: token});
-  res.send({success: true, token: token});
+  return null;
+}
+
+app.post('/api/auth/*', (req, res) => {
+  authLogs.log(`Auth request with: ${JSON.stringify(req.body)}`);
+  let user = findUserByUsername(req.body.username);
+  if (user) {
+    if (user.password === req.body.password) {
+      res.send({success: true, token: user.token});
+      return;
+    } else {
+      res.send({success: false, message: "Incorrect login/password"});
+      return;
+    }
+  } else {
+    let token = sha256(req.body.username + req.body.password);
+    registeredUsers.push({username: req.body.username, password: req.body.password, token: token});
+    res.send({success: true, token: token});
+  }
 });
 
 app.get('/api/models/*', (req, res) => {
@@ -137,26 +161,42 @@ io.sockets.on('connection', function (socket) {
 
   socket.on('message', function (data) {
     if (data !== '' && data !== null) {
-      let newMsg = `${getName(data.token)}: ${data.message}`;
-      messages.push(newMsg);
-      if (data.message.charAt(0) === '/') {
-        console.log('Admin command request from ', socket.handshake.address, data);
-        let cmd = data.message.substring(1, data.message.length);
-        try {
-          updateSingle(newMsg, socket);
-          let cmdRes = executeCommand(cmd);
-          serverMessage(JSON.stringify(cmdRes), socket);
-        } catch (e) {
-          console.log('Error during admin command execution');
-          serverMessage("Error during command execution", socket);
+      let user = findUserByToken(data.token);
+      if (user) {
+        let newMsg = `${user.username}: ${data.message}`;
+        messages.push(newMsg);
+        if (data.message.charAt(0) === '/') {
+          if (user.username === 'admin') {
+            adminLogs.logp(`Admin command request from ${socket.handshake.address} with ${data.message}`);
+
+            let cmd = data.message.substring(1, data.message.length);
+            try {
+              updateSingle(newMsg, socket);
+              let cmdRes = executeCommand(cmd);
+              serverMessage(JSON.stringify(cmdRes), socket);
+            } catch (e) {
+              adminLogs.logp('Error during admin command execution');
+              serverMessage(JSON.stringify("Error during command execution"), socket);
+            }
+          } else {
+            serverMessage(JSON.stringify("You don't have admin rights"), socket);
+          }
+        } else {
+          updateAll(newMsg)
         }
-      } else {
-        updateAll(newMsg)
       }
     }
   });
+
   socket.on('disconnect', function () {
     console.log(`user ${socket.handshake.address} disconnected`);
+    for (let i = 0; i < sockets.length; i++) {
+      if (sockets[i] === socket) {
+        sockets.splice(i, 1);
+        break;
+      }
+    }
+
   });
 });
 

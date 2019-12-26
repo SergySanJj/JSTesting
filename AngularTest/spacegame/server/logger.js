@@ -32,11 +32,17 @@ class Logger {
     }
   }
 
-  log(message){
+  log(message) {
     let timeStamp = (new Date(Date.now())).toTimeString();
     fs.appendFile(this.path, '\n' + timeStamp + '\n' + message, (err) => {
       if (err) throw err;
     });
+  }
+
+  // Log to file and log to console
+  logp(message) {
+    console.log(message);
+    this.log(message);
   }
 }
 

@@ -126,7 +126,7 @@ export class Game {
     const self = this;
 
     function render(time) {
-      console.log('Render');
+      // console.log('Render');
       time *= 0.001;  // convert to seconds
       const delta = Date.now() - lastTime;
       lastTime = Date.now();

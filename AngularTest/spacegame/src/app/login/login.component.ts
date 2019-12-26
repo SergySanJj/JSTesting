@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {AuthService} from '../auth.service';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
@@ -10,6 +10,8 @@ import {Router} from '@angular/router';
   providers: [AuthService]
 })
 export class LoginComponent implements OnInit {
+  @Input()
+  private loginMessage = '';
 
   constructor(private Auth: AuthService, private router: Router) {
   }
@@ -27,10 +29,11 @@ export class LoginComponent implements OnInit {
       console.log('GOT');
       console.log('login event response', data);
       if (data.success === false) {
-        alert(data.message);
+        this.loginMessage = data.message;
       } else {
         AuthService.token = data.token;
-        alert('logged in');
+        this.loginMessage = 'logged in';
+
         this.router.navigate(['/play']);
       }
     });
