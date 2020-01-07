@@ -1,0 +1,10 @@
+<div *ngIf="user.uid | async as uid; else login">The user logged {{uid}}
+  <div *ngIf="user.isAdmin | async">Admin</div>
+  <button (click)="user.logout()">Log out</button>
+</div>
+
+<ng-template #login>
+  User is not logged in <br>
+  Log in:
+  <button (click)="user.login()">Log in</button>
+</ng-template>

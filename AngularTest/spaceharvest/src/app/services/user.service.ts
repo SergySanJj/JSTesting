@@ -4,6 +4,7 @@ import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {map, filter, switchMap} from 'rxjs/operators';
 import {auth} from 'firebase';
+import {isObjectFlagSet} from 'tslint';
 
 @Injectable({
   providedIn: 'root'
@@ -27,12 +28,15 @@ export class UserService {
       if (!uid) {
         return observableOf(false);
       } else {
-        const ref = this.db.collection('admins').doc(uid);
-        const docum = ref.get().pipe(map(doc => {
-          return doc.data().isAdmin;
-        }));
+        const adminUidRef = this.db.collection('admins').doc(uid);
 
-        return docum;
+        return adminUidRef.get().pipe(map(doc => {
+          if (!doc.data()) {
+            return false;
+          } else {
+            return doc.data().isAdmin;
+          }
+        }));
       }
     })
   );
