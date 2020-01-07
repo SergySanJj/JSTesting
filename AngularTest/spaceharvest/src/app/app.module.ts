@@ -12,7 +12,7 @@ import {LoginComponent} from './login/login.component';
 import {PlayComponent} from './play/play.component';
 import {IndexComponent} from './index/index.component';
 
-import {AppkeysService} from './appkeys.service';
+import {AppkeysService} from './services/appkeys.service';
 
 @NgModule({
   declarations: [

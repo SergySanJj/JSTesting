@@ -1,1 +1,3 @@
-<p>index works!</p>
+<p>Space Harvest</p>
+<button *ngIf="!user.isLoggedIn()" (click)="goToLogin()">Log In</button>
+<button *ngIf="user.isLoggedIn()" (click)="goToPlay()">Play</button>

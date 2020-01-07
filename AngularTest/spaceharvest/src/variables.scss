@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+
+
+$transparent: rgba(0,0,0,0);
+
+$sidebarWidth: 20vw;
+$centerWidth: 100vw - $sidebarWidth*2;
+
+$darkBackground: rgb(43, 43, 43);
+$lighterBackground: rgb(60, 63, 65);
+$lightBackground: rgb(100,105,108);
+
+
+$lightTextColor: rgb(200,200,200);
+$darkerTextColor : rgb(180,180,180);
+
+$roboto: "Roboto", serif;
+
+
+$blockPadding: 2px;
+$blockMargin: 2px auto;
+
+$borderStyle: rgba(200,200,200,0.5) 1px solid;
+$borderBigRadius: 10px;
+$borderSmallRadius: 5px;

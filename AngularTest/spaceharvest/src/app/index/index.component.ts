@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {UserService} from '../services/user.service';
+import {AppRoutingModule} from '../app-routing.module';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-index',
@@ -7,9 +10,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IndexComponent implements OnInit {
 
-  constructor() { }
+  constructor(public user: UserService, private router: Router) {
+  }
 
   ngOnInit() {
   }
 
+  goToLogin() {
+    this.router.navigate(['login']);
+  }
+
+  goToPlay() {
+    this.router.navigate(['play']);
+  }
 }
